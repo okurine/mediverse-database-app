@@ -14,10 +14,10 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
+#### ------------------------ Examples for Role of clinician ------------------------
 def PolStratAdvHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
+        "pages/00_Clinician_Home.py", label="Clinition Home", icon="👤"
     )
 
 
@@ -31,11 +31,11 @@ def MapDemoNav():
     st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
+## ------------------------ Examples for Role of patient ------------------------
 
 def usaidWorkerHomeNav():
     st.sidebar.page_link(
-      "pages/10_USAID_Worker_Home.py", label="USAID Worker Home", icon="🏠"
+      "pages/10_patient_Home.py", label="USAID Worker Home", icon="🏠"
     )
 
 def NgoDirectoryNav():
@@ -91,13 +91,13 @@ def SideBarLinks(show_home=False):
     if st.session_state["authenticated"]:
 
         # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
+        if st.session_state["role"] == "clinician":
             PolStratAdvHomeNav()
             WorldBankVizNav()
             MapDemoNav()
 
         # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
+        if st.session_state["role"] == "patient":
             usaidWorkerHomeNav()
             NgoDirectoryNav()
             AddNgoNav()
