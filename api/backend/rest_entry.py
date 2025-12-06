@@ -8,6 +8,11 @@ from backend.db_connection import db
 from backend.simple.simple_routes import simple_routes
 from backend.ngos.ngo_routes import ngos
 
+from backend.admin.admin_routes import admin
+from backend.analyst.analyst_routes import analyst
+from backend.clinician.clinician_routes import clinician
+from backend.patient.patient_routes import patient
+
 def create_app():
     app = Flask(__name__)
 
@@ -50,6 +55,11 @@ def create_app():
     app.logger.info("create_app(): registering blueprints with Flask app object.")
     app.register_blueprint(simple_routes)
     app.register_blueprint(ngos, url_prefix="/ngo")
+    
+    app.register_blueprint(admin, url_prefix="/admin")
+    app.register_blueprint(analyst, url_prefix="/analyst")
+    app.register_blueprint(clinician, url_prefix="/clinician")
+    app.register_blueprint(patient, url_prefix="/patient")
 
     # Don't forget to return the app object
     return app
