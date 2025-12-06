@@ -29,7 +29,7 @@ if st.button('📉 Outlier Detection',
              use_container_width=True):
   st.switch_page('pages/43_Outlier_Detection.py')
   
-if st.button('📚 Organize Data', 
+if st.button('❓ Missing Data', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/44_Missing_Data.py')

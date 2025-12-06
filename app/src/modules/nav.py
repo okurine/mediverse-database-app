@@ -14,49 +14,26 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of clinician ------------------------
-def PolStratAdvHomeNav():
-    st.sidebar.page_link(
-        "pages/00_Clinician_Home.py", label="Clinition Home", icon="👤"
-    )
-
-
-def WorldBankVizNav():
-    st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
-    )
-
-
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
-
-
 ## ------------------------ Examples for Role of patient ------------------------
 
-def usaidWorkerHomeNav():
+def patientHomeNav():
     st.sidebar.page_link(
-      "pages/10_patient_Home.py", label="USAID Worker Home", icon="🏠"
+      "pages/10_patient_Home.py", label="Patient Home", icon="👤"
+    )
+    
+#### ------------------------ Examples for Role of clinician ------------------------
+def clinicianHomeNav():
+    st.sidebar.page_link(
+        "pages/00_Clinician_Home.py", label="Clinition Home", icon="🏠"
     )
 
-def NgoDirectoryNav():
-    st.sidebar.page_link("pages/14_NGO_Directory.py", label="NGO Directory", icon="📁")
 
-def AddNgoNav():
-    st.sidebar.page_link("pages/15_Add_NGO.py", label="Add New NGO", icon="➕")
+## ------------------------ Examples for Role of Data Analyst ------------------------
 
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-def PredictionNav():
+def dataAnalystHomeNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
+      "pages/40_Data_Analyst_Home.py", label="Data Analyst Home", icon="👤"
     )
-
-def ClassificationNav():
-    st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
-    )
-
 
 
 
@@ -76,7 +53,7 @@ def SideBarLinks(show_home=False):
     """
 
     # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
+    st.sidebar.image("assets/logo.png", width=550)
 
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
@@ -90,20 +67,23 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
+        # Show clinician if the user is a clinician role.
         if st.session_state["role"] == "clinician":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
-
-        # If the user role is usaid worker, show the Api Testing page
+            clinicianHomeNav()
+           
+        # Show Data analyst if the user is a analyst role.
+        if st.session_state["role"] == "analyst":
+            dataAnalystHomeNav()
+           
+        # If the user role is patient, show the patient page
         if st.session_state["role"] == "patient":
-            usaidWorkerHomeNav()
-            NgoDirectoryNav()
-            AddNgoNav()
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
+            patientHomeNav()
+            #usaidWorkerHomeNav()
+            #NgoDirectoryNav()
+            #AddNgoNav()
+            #PredictionNav()
+            #ApiTestNav()
+            #ClassificationNav()
             
 
         # If the user is an administrator, give them access to the administrator pages
