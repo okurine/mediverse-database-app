@@ -1,24 +1,56 @@
 import streamlit as st
-from clinician_routes import get_patient, get_vitals, get_careplans
+import requests
+from modules.nav import SideBarLinks
 
-
+SideBarLinks()
 st.title("📅 Unified Patient View")
 
 patient_id = st.number_input("Enter Patient ID", min_value=1, step=1)
 
-if patient_id:
-    patient = get_patient(patient_id)
-    if not patient:
-        st.error("Patient not found")
-    else:
-        st.subheader(f"Patient: {patient['name']} ({patient['gender']})")
-        st.write(f"DOB: {patient['DOB']}")
-        st.write(f"Status: {patient['status']}")
+if patient_id is None:
+    st.error("No patient_id selected.")
+    st.stop()
 
-        st.subheader("Vitals")
-        vitals = get_vitals(patient_id)
-        st.table(vitals)
+API_URL = f"http://web-api:4000/clinician/patients/{patient_id}/timeline"
 
-        st.subheader("Care Plans")
-        careplans = get_careplans(patient_id)
-        st.table(careplans)
+try:
+    response = requests.get(API_URL)
+
+    if response.status_code != 200:
+        st.error(f"API Error: {response.text}")
+        st.stop()
+
+    data = response.json()
+
+    st.header("Patient Info")
+    st.table(data["patient"])
+
+    st.markdown("---")
+    st.header("Vitals")
+    st.table(data["vitals"])
+
+    st.markdown("---")
+    st.header("Conditions")
+    st.table(data["conditions"])
+
+    st.markdown("---")
+    st.header("Treatments")
+    st.table(data["treatments"])
+
+    st.markdown("---")
+    st.header("Care Plans")
+    st.table(data["careplans"])
+
+    st.markdown("---")
+    st.header("Appointments")
+    st.table(data["appointments"])
+
+    st.markdown("---")
+    st.header("Lab Results")
+    st.table(data["lab_results"])
+
+except requests.exceptions.RequestException as e:
+    st.error(f"Error connecting to the API: {str(e)}")
+
+
+##############################

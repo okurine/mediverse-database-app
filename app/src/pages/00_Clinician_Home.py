@@ -8,6 +8,7 @@ st.set_page_config(layout = 'wide')
 
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
+#st.session_state["patient_id"] = 1
 
 st.title(f"Welcome Clinician, {st.session_state['first_name']}.")
 st.write('')

@@ -14,6 +14,9 @@ st.write('')
 st.write('')
 st.write('### What would you like to do today?')
 
+st.session_state["patient_id"] = 1
+
+ 
 if st.button('📋 Health Overview', 
              type='primary',
              use_container_width=True):
