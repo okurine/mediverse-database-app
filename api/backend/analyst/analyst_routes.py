@@ -1,12 +1,13 @@
 # backend/analyst/analyst_routes.py
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request
 from backend.db_connection import db
-from pymysql.cursors import DictCursor  
-from pymysql import Error                
-
-import csv
+from mysql.connector import Error
+from flask import current_app  
 import io
+import csv
 import datetime
+
+
 
 
 analyst = Blueprint("analyst", __name__)
@@ -15,7 +16,7 @@ analyst = Blueprint("analyst", __name__)
 @analyst.route("/datarequests", methods=["GET"])
 def list_data_requests():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM DataRequest ORDER BY dateCreated DESC")
         reqs = cursor.fetchall()
         cursor.close()
@@ -50,7 +51,7 @@ def create_data_request():
 @analyst.route("/projects", methods=["GET"])
 def get_projects():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM Project")
         projects = cursor.fetchall()
         cursor.close()
@@ -165,7 +166,7 @@ def update_lab_result(lab_id):
 @analyst.route("/labresults/outliers", methods=["GET"])
 def list_outliers():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM LabResult WHERE isOutlier = TRUE OR isModified = TRUE ORDER BY date DESC")
         rows = cursor.fetchall()
         cursor.close()
@@ -184,7 +185,7 @@ def patients_with_missing():
     """
     try:
         check = request.args.get("check", "demographics")
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         if check == "demographics":
             cursor.execute("SELECT * FROM Patient WHERE DOB IS NULL OR status IS NULL")
         elif check == "vitals":
@@ -218,7 +219,7 @@ def export_project(project_id):
     In production, stream as file or S3 upload.
     """
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         # labs in project
         cursor.execute("""
             SELECT l.* FROM LabResult l
@@ -274,7 +275,7 @@ def create_visualization():
 def list_visualizations():
     try:
         project_id = request.args.get("projectId")
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         if project_id:
             cursor.execute("SELECT * FROM Visualization WHERE projectId = %s", (project_id,))
         else:

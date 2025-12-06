@@ -1,18 +1,17 @@
-# backend/admin/admin_routes.py
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request
 from backend.db_connection import db
-from pymysql.cursors import DictCursor  
-from pymysql import Error    
+from mysql.connector import Error
+from flask import current_app  
+import io
+import csv
 
 admin = Blueprint("admin", __name__)
-
-
 # ---------------- Roles / Permissions ----------------
 
 @admin.route("/roles", methods=["GET"])
 def get_roles():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM Role")
         roles = cursor.fetchall()
         cursor.close()
@@ -70,7 +69,7 @@ def update_role(role_id):
 @admin.route("/permissions", methods=["GET"])
 def get_permissions():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM Permission")
         perms = cursor.fetchall()
         cursor.close()
@@ -104,7 +103,7 @@ def create_permission():
 @admin.route("/staff", methods=["GET"])
 def list_staff():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM Staff")
         staff = cursor.fetchall()
         cursor.close()
@@ -171,7 +170,7 @@ def delete_staff(staff_id):
 @admin.route("/auditlogs", methods=["GET"])
 def get_audit_logs():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM AuditLog ORDER BY timeStamp DESC LIMIT 1000")
         logs = cursor.fetchall()
         cursor.close()
@@ -184,7 +183,7 @@ def get_audit_logs():
 @admin.route("/integrations", methods=["GET"])
 def list_integrations():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM Integration")
         ints = cursor.fetchall()
         cursor.close()
@@ -240,7 +239,7 @@ def update_integration(int_id):
 def system_health():
     try:
         # Example: return counts and last sync times; adapt with real metrics
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT COUNT(*) AS staff_count FROM Staff")
         staff_count = cursor.fetchone()
         cursor.execute("SELECT COUNT(*) AS active_patients FROM Patient WHERE status = 'active'")
@@ -256,7 +255,7 @@ def system_health():
 @admin.route("/alerts/system", methods=["GET"])
 def system_alerts():
     try:
-        cursor = db.get_db().cursor(DictCursor)
+        cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM SystemAlert ORDER BY timestamp DESC LIMIT 200")
         alerts = cursor.fetchall()
         cursor.close()
