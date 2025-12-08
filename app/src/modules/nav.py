@@ -69,25 +69,22 @@ def SideBarLinks(show_home=False):
 
         # Show clinician if the user is a clinician role.
         if st.session_state["role"] == "clinician":
+            HomeNav()    
             clinicianHomeNav()
            
         # Show Data analyst if the user is a analyst role.
         if st.session_state["role"] == "analyst":
+            HomeNav()
             dataAnalystHomeNav()
            
         # If the user role is patient, show the patient page
         if st.session_state["role"] == "patient":
+            HomeNav()
             patientHomeNav()
-            #usaidWorkerHomeNav()
-            #NgoDirectoryNav()
-            #AddNgoNav()
-            #PredictionNav()
-            #ApiTestNav()
-            #ClassificationNav()
-            
-
+  
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
+            HomeNav()
             AdminPageNav()
 
     # Always show the About page at the bottom of the list of links
