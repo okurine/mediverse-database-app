@@ -19,7 +19,7 @@ if st.button('🗂️ Data Access Requests',
              use_container_width=True):
   st.switch_page('pages/41_Data_Request.py')
 
-if st.button('📚 Organize Data', 
+if st.button('📚 Organize Projects', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/42_Data_Organization.py')
@@ -43,5 +43,9 @@ if st.button('📊 Data Visualization Tools',
              type='primary',
              use_container_width=True):
   st.switch_page('pages/46_Visualizations.py')
-  
+
+if st.button('🔎 View Data', 
+            type='primary',
+            use_container_width=True):
+  st.switch_page('pages/47_view_data.py')
 
