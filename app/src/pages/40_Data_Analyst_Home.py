@@ -43,5 +43,9 @@ if st.button('📊 Data Visualization Tools',
              type='primary',
              use_container_width=True):
   st.switch_page('pages/46_Visualizations.py')
-  
+
+if st.button('🔎 View Data', 
+            type='primary',
+            use_container_width=True):
+  st.switch_page('pages/47_view_data.py')
 

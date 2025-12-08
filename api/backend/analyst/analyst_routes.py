@@ -286,3 +286,40 @@ def list_visualizations():
     except Error as e:
         current_app.logger.error(f"list_visualizations: {e}")
         return jsonify({"error": str(e)}), 500
+    
+# ---------------- Viewing Project Data ----------------
+@analyst.route("/projects/<int:project_id>/labs", methods=["GET"])
+def project_labs(project_id):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(f"""
+            SELECT L.* 
+            FROM LabResult L
+                JOIN Project_Labs PL ON L.labResultId = PL.labResultId
+            WHERE PL.projectId = {project_id}
+        """)
+        labs = cursor.fetchall()
+        cursor.close()
+
+        return jsonify(labs), 200
+    except Error as e:
+        current_app.logger.error(f"export_project: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@analyst.route("/projects/<int:project_id>/vitals", methods=["GET"])
+def project_vitals(project_id):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(f"""
+            SELECT V.* 
+            FROM Vitals V
+                JOIN Project_Vitals PV ON V.vitalsId = PV.vitalsId AND V.patientId = PV.patientId
+            WHERE PV.projectId = {project_id}
+        """)
+        vitals = cursor.fetchall()
+        cursor.close()
+        
+        return jsonify(vitals), 200
+    except Error as e:
+        current_app.logger.error(f"export_project: {e}")
+        return jsonify({"error": str(e)}), 500
